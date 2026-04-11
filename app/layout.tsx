@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Unica_One } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 
 import "./globals.css";
 
@@ -7,7 +7,7 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-const unicaOne = Unica_One({
+const poppins = Poppins({
   weight: "400",
   variable: "--font-unica-one",
   subsets: ["latin"],
@@ -33,7 +33,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className={`min-h-full flex flex-col ${unicaOne.className}`}>{children}</body>
+      <body className={`min-h-full flex flex-col ${poppins.className}`}>{children}</body>
     </html>
   );
 }

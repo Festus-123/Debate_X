@@ -8,7 +8,7 @@ type PROPS = {
   onClose: MouseEventHandler;
 };
 
-const Modal = ({ isOpen, onClose }: PROPS) => {
+const ArgumentModal = ({ isOpen, onClose }: PROPS) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [position, setPosition] = useState<"support" | "oppose" | "neutral" | null>(null);
@@ -128,4 +128,4 @@ Message: ${message}
   );
 };
 
-export default Modal;
+export default ArgumentModal;
