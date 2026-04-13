@@ -88,7 +88,7 @@ const Home = () => {
         {/* HERO */}
         <div
           ref={heroRef}
-          className="relative w-full md:max-w-3xl h-full mx-auto text-center flex flex-col gap-10 items-center justify-center bg-purple-950 rounded-xl p-2 pb-8"
+          className={`relative w-full md:max-w-3xl h-full mx-auto text-center flex flex-col gap-10 items-center justify-center bg-purple-950 rounded-xl p-2 pb-8`}
         >
           <Image
             src="/image2.png"

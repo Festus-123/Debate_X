@@ -45,15 +45,15 @@ Message: ${message}
   };
 
   return (
-    <div className={`fixed inset-0 bg-black/90 flex items-center justify-center z-50 px-4 ${poppins.className}`}>
-      <div className="hidden md:flex items-center p-2 rounded-xl bg-linear-to-br from-purple-950 to-purple-950">
-        <div className="relative rounded-xl">
+    <div className={`fixed inset-0 bg-black/90 flex items-center justify-center md:items-end md:justify-end z-50 p-4 ${poppins.className}`}>
+      <div className="overflow-y-scroll flex flex-col items-center p-2 rounded-xl bg-purple-950 max-w-2xl">
+        <div className="relative rounded-xl border ">
           <Image 
-            src="/image2.png"
+            src="/image3.png"
             alt="image"
             width={600}
             height={800}
-            className="object-left object-cover h-125 rounded-xl"/>
+            className="object-top-left object-cover h-100 rounded-xl border-purple-300"/>
             <div className="absolute bg-black/40 w-full h-full inset-0"/>
             <h1 className="absolute text-7xl font-extrabold text-white/80 bottom-1/4 left-1/4">
               DebateX
@@ -61,7 +61,7 @@ Message: ${message}
         </div>
       <div
         ref={modalRef}
-        className=" p-6 rounded-xl w-full h-full max-w-lg"
+        className="py-6 rounded-xl w-full h-full max-w-lg"
       >
         <h2 className="text-xl font-bold mb-4 text-white">
           Join Debate / Ask Question
