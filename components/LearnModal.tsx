@@ -31,11 +31,11 @@ const LearnModal = ({ onClose }: PROPS) => {
   return (
     <div
       ref={modalContainerRef}
-      className={`fixed inset-0 w-full bg-black/80 flex items-center justify-center z-50 px-4 ${poppins.className}`}
+      className={`fixed inset-0 bg-black/90 flex items-center justify-center z-50 px-4 ${poppins.className}`}
     >
       <div
         ref={modalRef}
-        className="flex flex-col items-center p-4 rounded-xl bg-purple-950 max-w-2xl w-full "
+        className="flex flex-col items-center p-4 rounded-xl bg-purple-950 max-w-2xl w-full"
       >
         {/* Video / Iframe at the top */}
         <div className="w-full mb-6">
@@ -48,11 +48,11 @@ const LearnModal = ({ onClose }: PROPS) => {
 
         {/* Detailed explanation */}
         <h2 className="text-2xl font-bold text-white mb-4">How Voting Works</h2>
-        <p className="text-gray-200 text-lg leading-relaxed mb-4">
+        <p className="text-gray-200 text-sm md:text-lg leading-relaxed mb-4">
           Voting is the process by which citizens participate in choosing their
           leaders and shaping government policies. The steps usually include:
         </p>
-        <ul className="list-disc list-inside text-gray-300 text-lg space-y-2 mb-6">
+        <ul className="list-disc list-inside text-gray-300 text-sm md:text-lg space-y-2 mb-6">
           <li>Registering as a voter with the electoral commission.</li>
           <li>Collecting your voter’s card and confirming your polling unit.</li>
           <li>On election day, presenting your card and being verified.</li>

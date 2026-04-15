@@ -63,7 +63,7 @@ Message: ${message}
             height={800}
             className="object-top-left object-cover h-80 md:h-100 rounded-xl border-purple-300"/>
             <div className="absolute bg-black/40 w-full h-full inset-0"/>
-            <h1 className="absolute text-7xl font-extrabold text-white/80 bottom-1/4 left-1/4">
+            <h1 className="absolute text-7xl font-extrabold text-white/80 top-2 right-2 md:bottom-1/4 md:left-1/4">
               DebateX
             </h1>
         </div>

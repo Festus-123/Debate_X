@@ -95,7 +95,7 @@ const Home = () => {
             alt="Debate image"
             width={630}
             height={300}
-            className="bg-center bg-cover rounded-xl w-full h-90 border border-purple-200"
+            className="bg-center bg-cover rounded-xl w-full  h-70 md:h-90 border border-purple-200"
           />
 
           <h1 className="text-4xl font-bold mb-6 bg-yellow-300 p-2 ">
