@@ -1,17 +1,5 @@
 // Utility to get or set a fixed end time 4 days from now
-export const getFixedEndTime = (): number => {
-  const key = "countdownEndTime";
-  const stored = localStorage.getItem(key);
 
-  if (stored) {
-    return parseInt(stored, 10);
-  }
-
-  // If no stored end time, set it to 4 days from now
-  const endTime = Date.now() + 4 * 24 * 60 * 60 * 1000;
-  localStorage.setItem(key, endTime.toString());
-  return endTime;
-};
 
 // Countdown calculation
 export const getTimeRemaining = (): {
@@ -21,7 +9,7 @@ export const getTimeRemaining = (): {
   minutes: number;
   seconds: number;
 } => {
-  const endTime = getFixedEndTime();
+  const endTime = new Date("2026-04-27T00:00:00Z").getTime();
   const total = endTime - Date.now();
 
   const days = Math.floor(total / (1000 * 60 * 60 * 24));

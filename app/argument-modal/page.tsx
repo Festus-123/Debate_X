@@ -1,6 +1,6 @@
 "use client";
 
-import LearnModal from "@/components/LearnModal";
+import ArgumentModal from "@/components/ArgumentModal";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -8,7 +8,7 @@ const Page = () => {
 
   return (
     <div>
-      <LearnModal onClose={() => router.back()} />
+      <ArgumentModal onClose={() => router.back()} />
     </div>
   );
 };

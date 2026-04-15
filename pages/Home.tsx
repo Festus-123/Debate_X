@@ -165,7 +165,7 @@ const Home = () => {
               Go to Telegram Channel
             </button>
             <Link
-              href="/learn-modal"
+              href="/voting-modal"
               className="mt-2 text-gray-300 cursor-pointer"
             >
               Learn More
