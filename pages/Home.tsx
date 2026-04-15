@@ -68,7 +68,7 @@ const Home = () => {
       <div className="relative  text-white font-sans px-2 md:px-0">
         {/* NAVBAR */}
 
-        <nav className=" sticky top-0 z-10 flex justify-between py-6 px-4">
+        <nav className=" sticky top-0 z-10 flex justify-between py-6 px-4 backdrop-blur-sm md:backdrop-opacity-0">
           <h1 className="text-xl font-bold ">DebateX</h1>
 
         <div className="flex flex-row gap-2 md:gap-4 items-center">
@@ -168,7 +168,7 @@ const Home = () => {
               href="/voting-modal"
               className="mt-2 text-gray-300 cursor-pointer"
             >
-              Learn More
+              vote now
             </Link>
           </div>
         </div>
