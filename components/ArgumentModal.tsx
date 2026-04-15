@@ -6,12 +6,13 @@ import gsap from "gsap";
 import Image from "next/image";
 
 type PROPS = {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: MouseEventHandler;
 };
 
-const ArgumentModal = ({ isOpen, onClose }: PROPS) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+const ArgumentModal = ({ onClose }: PROPS) => {
+  const modalContainerRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null)
 
   const [position, setPosition] = useState<
     "support" | "oppose" | "neutral" | null
@@ -20,16 +21,19 @@ const ArgumentModal = ({ isOpen, onClose }: PROPS) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (isOpen) {
+      gsap.fromTo(
+        modalContainerRef.current,
+        { x: "100%", opacity: 0, scale: 0.95 },
+        { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
+      );
       gsap.fromTo(
         modalRef.current,
-        { y: -60, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        { x: "100%", opacity: 0, scale: 0.95 },
+        { x: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out" },
       );
-    }
-  }, [isOpen]);
+  }, []);
 
-  if (!isOpen) return null;
+  // if (!) return null;
 
   const handleSend = () => {
     const text = `
@@ -45,23 +49,25 @@ Message: ${message}
   };
 
   return (
-    <div className={`fixed inset-0 bg-black/90 flex items-center justify-center md:items-end md:justify-end z-50 p-4 ${poppins.className}`}>
-      <div className="overflow-y-scroll flex flex-col items-center p-2 rounded-xl bg-purple-950 max-w-2xl">
+    <div 
+      ref={modalContainerRef}
+      className={`fixed inset-0 w-full bg-black/90 flex items-center justify-center md:items-end md:justify-end z-50 px-4 ${poppins.className}`}>
+      <div 
+        ref={modalRef}
+        className=" flex flex-col items-center p-2 rounded-xl bg-purple-950/40 max-w-xl">
         <div className="relative rounded-xl border ">
           <Image 
             src="/image3.png"
             alt="image"
             width={600}
             height={800}
-            className="object-top-left object-cover h-100 rounded-xl border-purple-300"/>
+            className="object-top-left object-cover h-80 md:h-100 rounded-xl border-purple-300"/>
             <div className="absolute bg-black/40 w-full h-full inset-0"/>
             <h1 className="absolute text-7xl font-extrabold text-white/80 bottom-1/4 left-1/4">
               DebateX
             </h1>
         </div>
-      <div
-        ref={modalRef}
-        className="py-6 rounded-xl w-full h-full max-w-lg"
+      <div className="py-6 rounded-xl w-full h-full max-w-lg"
       >
         <h2 className="text-xl font-bold mb-4 text-white">
           Join Debate / Ask Question
@@ -72,7 +78,7 @@ Message: ${message}
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your Name"
-          className="w-full mb-4 p-2 rounded bg-black/40 text-white focus:outline-none"
+          className="w-full mb-4 p-2 rounded text-white focus:outline-none"
         />
 
         {/* POSITION SELECTOR */}
@@ -120,7 +126,7 @@ Message: ${message}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your argument or question..."
-          className="w-full mb-4 p-3 rounded bg-black/40 text-white  h-40 resize-none focus:outline-none"
+          className="w-full mb-4 p-3 rounded text-white overflow-y-auto h-40 max-h-60 resize-none focus:outline-none"
         />
 
         {/* SEND */}

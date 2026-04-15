@@ -5,8 +5,8 @@ import gsap from "gsap";
 import { FaRegBell, FaRegBellSlash } from "react-icons/fa";
 import { getTimeRemaining } from "@/helper/useGetTime";
 import { Poppins } from "next/font/google";
-import Modal from "@/components/ArgumentModal";
 import Image from "next/image";
+import Link from "next/link";
 
 export const poppins = Poppins({
   weight: "400",
@@ -29,7 +29,6 @@ const Home = () => {
     minutes: 0,
     seconds: 0,
   });
-  const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const heroRef = useRef<HTMLDivElement>(null);
@@ -75,13 +74,13 @@ const Home = () => {
           <div className="cursor-pointer">
             <FaRegBellSlash />
           </div>
-          <button
+          <Link
+            href={"/argument-modal"}
             // disabled={loading}
-            onClick={() => setModalOpen(true)}
-            className={` ${!loading ? "bg-gray-600 text-gray-400" : "bg-purple-700 hover:bg-purple-950 cursor-pointer z-60"} px-4 py-2 rounded-lg  transition`}
+            className={` ${!loading ? "bg-gray-600 text-gray-400" : "bg-purple-700 hover:bg-purple-950 cursor-pointer"} px-4 py-2 rounded-lg  transition`}
             >
             Join Debate
-          </button>
+          </Link>
             </div>
         </nav>
 
@@ -164,12 +163,12 @@ const Home = () => {
             >
               Go to Telegram Channel
             </button>
-            <button
-              onClick={() => window.open("https://t.me/Debate_X", "_blank")}
+            <Link
+              href="/learn-modal"
               className="mt-2 text-gray-300 cursor-pointer"
             >
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -178,9 +177,6 @@ const Home = () => {
       <footer className="py-10 text-center text-gray-300 text-sm ">
         © 2026 Debate X — Built for thinkers.
       </footer>
-
-      {/* MODAL */}
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 };
