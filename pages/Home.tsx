@@ -37,9 +37,10 @@ const Home = () => {
     const end = Date.now() + 72 * 60 * 60 * 1000;
 
     const interval = setInterval(() => {
-      setTimeLeft(getTimeRemaining(end));
-      if (getTimeRemaining(end).total === 0) {
-        setLoading(true);
+      setTimeLeft(getTimeRemaining());
+      if (getTimeRemaining().total <= 0) {
+        setLoading(false);
+        clearInterval(interval);
       }
     }, 1000);
 
