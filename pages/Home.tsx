@@ -71,10 +71,6 @@ const Home = () => {
         <nav className=" sticky top-0 z-10 flex justify-between py-6 px-4 backdrop-blur-sm md:backdrop-opacity-0">
           <h1 className="text-xl font-bold ">DebateX</h1>
 
-        <div className="flex flex-row gap-2 md:gap-4 items-center">
-          <div className="cursor-pointer">
-            <FaRegBellSlash />
-          </div>
           <Link
             href={"/argument-modal"}
             // disabled={loading}
@@ -82,7 +78,6 @@ const Home = () => {
             >
             Join Debate
           </Link>
-            </div>
         </nav>
 
         {/* HERO */}
