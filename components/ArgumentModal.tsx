@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, MouseEventHandler } from "react";
 import { poppins } from "@/pages/Home";
 import gsap from "gsap";
 import Image from "next/image";
+import { generateDebateImage } from "@/helper/useGenerate";
 
 type PROPS = {
   isOpen?: boolean;
@@ -12,7 +13,7 @@ type PROPS = {
 
 const ArgumentModal = ({ onClose }: PROPS) => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null)
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [position, setPosition] = useState<
     "support" | "oppose" | "neutral" | null
@@ -21,132 +22,156 @@ const ArgumentModal = ({ onClose }: PROPS) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-      gsap.fromTo(
-        modalContainerRef.current,
-        { x: "100%", opacity: 0, scale: 0.95 },
-        { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" },
-      );
-      gsap.fromTo(
-        modalRef.current,
-        { x: "100%", opacity: 0, scale: 0.95 },
-        { x: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out" },
-      );
+    gsap.fromTo(
+      modalContainerRef.current,
+      { x: "100%", opacity: 0, scale: 0.95 },
+      { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      modalRef.current,
+      { x: "100%", opacity: 0, scale: 0.95 },
+      { x: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out" }
+    );
   }, []);
 
-  // if (!) return null;
+  // 🔥 MAIN FUNCTION (generate + send)
+const handleSend = async () => {
+  if (!name || !position || !message) return;
 
-  const handleSend = () => {
-    const text = `
-Name: ${name}
-Position: ${position}
-Message: ${message}
-    `;
+  const side =
+    position === "support"
+      ? "support"
+      : position === "oppose"
+      ? "oppose"
+      : "neutral"; // keep neutral
 
-    const encoded = encodeURIComponent(text);
+  // Generate image (also copies to clipboard internally)
+  const image = await generateDebateImage({
+    name,
+    side,
+    argument: message,
+  });
 
-    // Telegram deep link (opens chat with prefilled message)
-    window.open(`https://t.me/Othodo_X?text=${encoded}`, "_blank");
-  };
+  if (!image) return;
+
+  // ✅ Download image
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "debatex-post.png";
+  link.click();
+
+  // ✅ Open Telegram with text
+  const text = encodeURIComponent(
+    `🔥 DebateX Submission\n\nName: ${name}\nPosition: ${position}\n\n${message}\n\n(Paste the image 👇)`
+  );
+
+  window.open(`https://t.me/Othodo_X?text=${text}`, "_blank");
+};
 
   return (
-    <div 
+    <div
       ref={modalContainerRef}
-      className={`fixed inset-0 w-full bg-black/90 flex items-center justify-center md:items-end md:justify-end z-50 px-4 ${poppins.className}`}>
-      <div 
+      className={`fixed inset-0 w-full bg-black/90 flex items-center justify-center md:items-end md:justify-end z-50 px-4 ${poppins.className}`}
+    >
+      <div
         ref={modalRef}
-        className=" flex flex-col items-center p-2 rounded-xl bg-purple-950/40 max-w-xl">
+        className="flex flex-col items-center p-2 rounded-xl bg-purple-950/40 max-w-xl"
+      >
         <div className="relative rounded-xl border ">
-          <Image 
+          <Image
             src="/image3.png"
             alt="image"
             width={600}
             height={800}
-            className="object-top-left object-cover h-80 md:h-100 rounded-xl border-purple-300"/>
-            <div className="absolute bg-black/40 w-full h-full inset-0"/>
-            <h1 className="absolute text-7xl font-extrabold text-white/80 top-2 right-2 md:bottom-1/4 md:left-1/4">
-              DebateX
-            </h1>
+            className="object-top-left object-cover h-80 md:h-100 rounded-xl border-purple-300"
+          />
+          <div className="absolute bg-black/40 w-full h-full inset-0" />
+          <h1 className="absolute text-7xl font-extrabold text-white/80 top-2 right-2 md:bottom-1/4 md:left-1/4">
+            DebateX
+          </h1>
         </div>
-      <div className="py-6 rounded-xl w-full h-full max-w-lg"
-      >
-        <h2 className="text-xl font-bold mb-4 text-white">
-          Join Debate / Ask Question
-        </h2>
 
-        {/* NAME */}
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your Name"
-          className="w-full mb-4 p-2 rounded text-white focus:outline-none"
-        />
+        <div className="py-6 rounded-xl w-full h-full max-w-lg">
+          <h2 className="text-xl font-bold mb-4 text-white">
+            Join Debate / Ask Question
+          </h2>
 
-        {/* POSITION SELECTOR */}
-        <div className="mb-4">
-          <p className="text-sm text-gray-300 mb-2">Select Your Position:</p>
+          {/* NAME */}
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your Name"
+            className="w-full mb-4 p-2 rounded text-white focus:outline-none"
+          />
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => setPosition("support")}
-              className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
-                position === "support"
-                  ? "bg-yellow-400 text-black shadow-lg scale-105"
-                  : "bg-yellow-400/20 text-yellow-300"
-              }`}
-            >
-              Support
-            </button>
+          {/* POSITION */}
+          <div className="mb-4">
+            <p className="text-sm text-gray-300 mb-2">
+              Select Your Position:
+            </p>
 
-            <button
-              onClick={() => setPosition("oppose")}
-              className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
-                position === "oppose"
-                  ? "bg-red-500 text-white shadow-lg scale-105"
-                  : "bg-red-500/20 text-red-300"
-              }`}
-            >
-              Oppose
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setPosition("support")}
+                className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
+                  position === "support"
+                    ? "bg-yellow-400 text-black shadow-lg scale-105"
+                    : "bg-yellow-400/20 text-yellow-300"
+                }`}
+              >
+                Support
+              </button>
 
-            <button
-              onClick={() => setPosition("neutral")}
-              className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
-                position === "neutral"
-                  ? "bg-purple-500 text-white shadow-lg scale-105"
-                  : "bg-purple-500/20 text-purple-300"
-              }`}
-            >
-              Question
-            </button>
+              <button
+                onClick={() => setPosition("oppose")}
+                className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
+                  position === "oppose"
+                    ? "bg-red-500 text-white shadow-lg scale-105"
+                    : "bg-red-500/20 text-red-300"
+                }`}
+              >
+                Oppose
+              </button>
+
+              <button
+                onClick={() => setPosition("neutral")}
+                className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
+                  position === "neutral"
+                    ? "bg-purple-500 text-white shadow-lg scale-105"
+                    : "bg-purple-500/20 text-purple-300"
+                }`}
+              >
+                Question
+              </button>
+            </div>
           </div>
+
+          {/* MESSAGE */}
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your argument or question..."
+            className="w-full mb-4 p-3 rounded text-white overflow-y-auto h-40 max-h-60 resize-none focus:outline-none"
+          />
+
+          {/* SEND */}
+          <button
+            onClick={handleSend}
+            className="bg-purple-600 hover:bg-purple-800 px-4 py-3 rounded text-white w-full transition"
+          >
+            Generate & Send to Telegram
+          </button>
+
+          {/* CLOSE */}
+          <button
+            onClick={onClose}
+            className="mt-3 text-sm text-gray-300 w-full hover:text-white transition"
+          >
+            Close
+          </button>
         </div>
-
-        {/* TEXTAREA */}
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your argument or question..."
-          className="w-full mb-4 p-3 rounded text-white overflow-y-auto h-40 max-h-60 resize-none focus:outline-none"
-        />
-
-        {/* SEND */}
-        <button
-          onClick={handleSend}
-          className="bg-purple-600 hover:bg-purple-800 px-4 py-3 rounded text-white w-full transition"
-        >
-          Send to Telegram
-        </button>
-
-        {/* CLOSE */}
-        <button
-          onClick={onClose}
-          className="mt-3 text-sm text-gray-300 w-full hover:text-white transition"
-        >
-          Close
-        </button>
       </div>
-      </div>
-
     </div>
   );
 };
